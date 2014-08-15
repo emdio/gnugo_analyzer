@@ -27,12 +27,20 @@ print foundWhite
 print foundBlack
 
 for move in range(max(foundBlack, foundWhite)):
-    command = 'gnugo ' + '-l ' + str(my_sgf_file.name) + ' -L ' + str(move) + ' -T  -t --level 10'
-    print command
-    print os.devnull
-#    proc = subprocess.check_output(command, stdout=subprocess.PIPE, shell = True)
-#    output = subprocess.Popen(command, stdout=subprocess.PIPE).communicate()[0]
+#    command = 'gnugo' + ' -l ' + str(my_sgf_file.name) + ' -L ' + str(move) + ' -T ' + ' -t ' + ' --level ' + '10'
+    command = ['gnugo', '-l ', str(my_sgf_file.name), '-L' , str(move), '-T',  '-t', '--level', '10']
+#    print command
+#    print os.devnull
 #    output = subprocess.Popen(command, stdout=subprocess.PIPE, shell = True)
-#    output = subprocess.Popen((command), stdout = open(os.devnull, 'w'))
-    p = subprocess.Popen(['gnugo','-l ' + str(my_sgf_file.name),' -L ' + str(move)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out, err = p.communicate()
+#    (out, err) = output.communicate()
+    p = subprocess.Popen(['gnugo', '-l ', str(my_sgf_file.name), '-L' , str(move), '-T',  '-t', '--level', '10'], stdout=subprocess.PIPE)
+    output, err = p.communicate()
+#    print output
+#    output = subprocess.Popen(command, stdout=subprocess.PIPE).communicate()
+#    output = subprocess.Popen(command, stdout=open(os.devnull, 'w'))
+#    output = subprocess.call(command, shell=True)
+#    output = os.popen(command)
+#    output = subprocess.call(command)
+#    output = subprocess.Popen(command, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+#    output = subprocess.Popen((command), stdout = open(os.devnull, 'w'), shell = True)
+#    output = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell = True)
