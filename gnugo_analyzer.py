@@ -64,14 +64,14 @@ for field in sgfContent:
 #    print field
     if 'W[' in field[0:5] or 'B[' in field[0:5]:
         onlyMoves.append(field[0:5])
-print sgfContent
-print '************************'
-print onlyMoves
-print onlyMoves[0]
-print convertSgf2Move(onlyMoves[0])
-print onlyMoves[1]
-print convertSgf2Move(onlyMoves[1])
-print len(onlyMoves)
+#print sgfContent
+#print '************************'
+#print onlyMoves
+#print onlyMoves[0]
+#print convertSgf2Move(onlyMoves[0])
+#print onlyMoves[1]
+#print convertSgf2Move(onlyMoves[1])
+#print len(onlyMoves)
 
 #exit()
 
@@ -79,17 +79,28 @@ print len(onlyMoves)
 for move in range(numMoves):
 #for move in range(2):
     print
+    print '*Analyzing for move number', str(move+1)
     command = 'gnugo' + ' -l ' + sgfName + ' -L ' + str(move+1) + ' -T ' + ' -w ' + ' -t ' + ' --level ' + '15'
-    print command
     output = os.popen(command + " 2>&1")
     tmpList = []
     commentsList = []
+    extraInfoList = []
+    bestMove = ''
     count = 0
+#    print 'General info:'
+#    for line in output.readlines():
+#        if 'death' in line or 'critical' in line:
+#            print line
+#    print
     for line in output.readlines():
         line = line.rstrip()
         tmpList.append(line)
         if "Move at" in line:
             commentsList.append(line)
+        if 'death' in line or 'critical' in line:
+            extraInfoList.append(line)
+    if len(extraInfoList):
+        print extraInfoList[0]
     for info in tmpList:
         if "Top" in info:
             bestMove = tmpList[count + 1]
@@ -100,11 +111,13 @@ for move in range(numMoves):
                     print comment
         count+=1
     yourMove = convertSgf2Move(onlyMoves[move])
-    print 'Your move was:', yourMove
-    for comment in commentsList:
-                if yourMove in comment:
-                    print comment
-    
+    if yourMove != bestMove:
+        print 'Your move was:', yourMove
+        for comment in commentsList:
+            if yourMove in comment:
+                print comment
+    else:
+        print 'You made the same move'
     
     
 
